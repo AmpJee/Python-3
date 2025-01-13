@@ -1,3 +1,4 @@
+#bouncing circle
 class Circle:
     def __init__(self, radius, x, y):
         self.radius = radius
@@ -9,14 +10,26 @@ class Circle:
         print(f"{self.x}, {self.y}")
  
 
-    def move(self):
-        self.x += 1
-        self.y += 1
+    def move(self, dx, dy):
+        self.x += dx
+        self.y += dy
 
 
 if __name__ == "__main__":
-    c = Circle(4, 5, 6)
-    for i in range(4):
-        c.move()
+    c = Circle(4, 0, 0)
+    
+    window_width = 100
+    window_height = 100
+
+    vx = 1
+    vy = 1
+
+    for i in range(1000):
+        c.move(vx, vx)
         c.draw()
+        if c.y > window_height or c.y < 0: 
+            vy = -vy
+        if c.x > window_width or c.x < 0:
+            vx = -vx
+
         
