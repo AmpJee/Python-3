@@ -25,11 +25,11 @@ if __name__ == "__main__":
     vy = 1
 
     for i in range(1000):
-        c.move(vx, vx)
+        c.move(vx, vy)
         c.draw()
-        if c.y > window_height or c.y < 0: 
-            vy = -vy
         if c.x > window_width or c.x < 0:
             vx = -vx
+        if c.y > window_height or c.y < 0: 
+            vy = -vy
 
         
