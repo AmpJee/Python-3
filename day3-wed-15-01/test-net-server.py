@@ -1,11 +1,16 @@
 import socket
 import sys
-from pyexpat.errors import messages
+import threading
 
 HOST = '0.0.0.0'
 PORT = 21002
 s = None
 
+def send_message_function(client_socket):
+    while True:
+        message = input("Enter a message: ")
+        client_socket.send((message + "\n").encode())
+    
 try:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     print("Socket created")
@@ -27,6 +32,9 @@ conn, addr = s.accept()
 with conn:
     print('Connection accepted from ', addr)
     
+    send_thread = threading.Thread(target=send_message_function, args=(conn,))
+    send_thread.start()
+
     while True:
         message_received = ""
         while True:
@@ -41,13 +49,10 @@ with conn:
 
         if message_received:
             print("Received message: ", message_received)
-            message = input("Enter a message: ")
-            conn.send((message+"\n").encode())
-            print("Message sent to client, waiting for response")
-            if message == "exit":
+            if message_received == "exit\n":
                 break
         else:
             break
-
+        
 s.close()
 print("Server finished")
