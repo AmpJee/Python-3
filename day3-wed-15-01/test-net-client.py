@@ -13,7 +13,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
     print("Connected to server")
 
-    send_thread = threading.Thread(target=send_message_function, args=(s,))
+    send_thread = threading.Thread(target=send_message_function, args=(s,), daemon=True)
     send_thread.start()
 
     while True:
