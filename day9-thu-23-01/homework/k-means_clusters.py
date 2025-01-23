@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import random as rd
 import math
-
+import time
 
 def generate_points(centroids):
     points = []
@@ -45,19 +46,31 @@ def k_means(points, k, max_iterations=500):
         if new_centroids == centroids:
             break
         centroids = new_centroids
-    
     return centroids, clusters
     
 
-def plot_clusters(points, centroids, clusters):
+def k_means_numpy(points, k, max_iterations=500):
+    centroids = rd.sample(points, k)
+    points = np.array(points)
+    for _ in range(max_iterations):
+        distances = np.array([np.linalg.norm(points - centroid, axis=1) for centroid in centroids])
+        clusters = np.argmin(distances, axis=0)
+        new_centroids = np.array([np.mean(points[clusters == i], axis=0) for i in range(k)])
+        if np.all(centroids == new_centroids):
+            break
+        centroids = new_centroids
+    clusters = [points[clusters == i] for i in range(k)]
+    return centroids, clusters
+
+def plot_clusters(points, centroids, clusters, filename, title):
     plt.figure()
     for i, cluster in enumerate(clusters):
         cluster_points = [point for point in points if point in cluster]
         plt.scatter([x for x, y in cluster_points], [y for x, y in cluster_points], s=4, label=f'Cluster {i+1}')
     plt.scatter([x for x, y in centroids], [y for x, y in centroids], s=10, color='black', label='Centroids')
     plt.legend()
-    plt.title('K-Means Clustering')
-    plt.savefig('k-means.png')
+    plt.title(title)
+    plt.savefig(filename)
     plt.show()
 
 
@@ -65,9 +78,16 @@ def main():
     centroids = [(-5, 3), (4, -7), (1, 9), (10, -1)]
     points = generate_points(centroids)
     plot_initial(points, centroids)
+    start_time = time.time()
     centroids, clusters = k_means(points, k=4)
-    plot_clusters(points, centroids, clusters)
-    print(centroids)
+    end_time = time.time()
+    print(f'K-Means Clusters Time taken: {end_time - start_time:.6f} seconds')
+    plot_clusters(points, centroids, clusters, 'k-means clusters.png', 'K-Means Clusters')
+    start_time = time.time()
+    centroids, clusters = k_means_numpy(points, k=4)
+    end_time = time.time()
+    print(f'K-Means Clusters (NumPy) Time taken: {end_time - start_time:.6f} seconds')
+    plot_clusters(points, centroids, clusters, 'k-means numpy clusters.png', 'K-Means Clusters (NumPy)')
 
 
 if __name__ == '__main__':
