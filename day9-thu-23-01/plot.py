@@ -17,9 +17,9 @@ y1 = f1(x)
 y2 = f2(x)
 y3 = f3(x)
 
-plt.plot(x, y1, label='Parabola', color='green')
-plt.plot(x, y2, label='Sine Curve', color='red')
-plt.plot(x, y3, label='Inverse Tangent', color='pink')
+plt.plot(x, y1, label='Parabola', color='green', marker='o', markersize=2)
+plt.plot(x, y2, label='Sine Curve', color='red', linestyle='dashed', marker='o', markersize=2)
+plt.plot(x, y3, label='Inverse Tangent', color='pink', linestyle='dotted', marker='o', markersize=2)
 
 plt.xlabel('X-axis')
 plt.ylabel('Y-axis')
