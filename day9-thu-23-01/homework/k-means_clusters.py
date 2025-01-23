@@ -19,7 +19,7 @@ def plot_initial(points, centroids, ):
     plt.scatter([x for x, y in centroids], [y for x, y in centroids], s=10, color='black', label='Centroids')
     plt.legend()
     plt.title('Initial Points and Centroids')
-    #plt.savefig('k-means initial.png')
+    plt.savefig('k-means initial.png')
     plt.show()
 
 
@@ -48,10 +48,26 @@ def k_means(points, k, max_iterations=500):
     
     return centroids, clusters
     
+
+def plot_clusters(points, centroids, clusters):
+    plt.figure()
+    for i, cluster in enumerate(clusters):
+        cluster_points = [point for point in points if point in cluster]
+        plt.scatter([x for x, y in cluster_points], [y for x, y in cluster_points], s=4, label=f'Cluster {i+1}')
+    plt.scatter([x for x, y in centroids], [y for x, y in centroids], s=10, color='black', label='Centroids')
+    plt.legend()
+    plt.title('K-Means Clustering')
+    plt.savefig('k-means.png')
+    plt.show()
+
+
 def main():
     centroids = [(-5, 3), (4, -7), (1, 9), (10, -1)]
     points = generate_points(centroids)
     plot_initial(points, centroids)
+    centroids, clusters = k_means(points, k=4)
+    plot_clusters(points, centroids, clusters)
+    print(centroids)
 
 
 if __name__ == '__main__':
