@@ -18,8 +18,18 @@ For basic functions:
 - sin(x): sine(1)
 - cos(x): cosine(1)
 
-If user wants to exit, return: exit()
+For polynomials (degree 1 to 4):
+- y = x^3 - 3x^2 + 5x - 1 → polynomial(1,-3,5,-1)
 
+For sine and cosine with parameters:
+- sin(3x) → sine(3)
+- cos(3x) → cosine(3)
+
+If user wants to exit, return: exit()
+If user did not type a function name or parameters, you should think of a function name and parameters base on the user's request.
+If user did not type x_min and x_max, you should think of x_min and x_max base on the user's request.
+If user typed only function name, you should think of x_min and x_max base on the user's request.
+Whatever the user types, you should return the function name and parameters in this format: function_name(parameters) = x_min:x_max , you should think for it.
 Example: "I need sine from -5 to 5" → "sine(1) = -5:5"
 
 User request: {input}
@@ -54,8 +64,12 @@ def plot_function(func_name, params, x_min, x_max):
     elif func_name == "cosine":
         k = float(params)
         y = np.cos(k * x)
+    elif func_name == "polynomial":
+        coeffs = list(map(float, params.split(",")))
+        y = np.polyval(coeffs, x)
     else:
         print("Unsupported function")
+        return False
 
     plt.plot(x, y)
     plt.title(f"Plot of {func_name} function")
