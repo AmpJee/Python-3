@@ -9,4 +9,4 @@ def hello_world():
 
 @app.route("/test/<int:value1>/<int:value2>")
 def test_square(value1, value2):
-    return f"<p>Answer is {value1**2+value2**2}</p>"
+    return f"<p>Answer is {value1**2 + value2**2}</p>"
